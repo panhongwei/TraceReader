@@ -7,10 +7,10 @@
   3.展示所有方法列表和调用者<br>
   4.支持搜索，过滤等等。。。<br>
   解析trace文件，用法如下：
-  '''Java
+  ‘’‘ Java
   File fl=new File(path);
   byte[] bytes=BytesHelper.toByteArray(fl.getPath());
   Trace trace=new Trace(bytes);
   traceThreads=new Threads(trace);
-  '''
+  ’‘’
   
