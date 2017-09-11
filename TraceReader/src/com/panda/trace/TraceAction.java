@@ -6,10 +6,13 @@ public class TraceAction {
 	public final static int kTraceUnroll=0x02;            // method exited by exception unrolling
     // 0x03 currently unused
 	public final static int kTraceMethodActionMask=0x03;  // two bits
-	public static int decodeMethodValue(int methodVlaue){
+	public static long decodeMethodValue(long methodVlaue){
 		return (methodVlaue& (~kTraceMethodActionMask));
 	}
 	public static int decodeAction(int methodVlaue){
 		return Math.abs((methodVlaue&kTraceMethodActionMask));
+	}
+	public static int decodeAction(long methodVlaue){
+		return (int) Math.abs((methodVlaue&kTraceMethodActionMask));
 	}
 }

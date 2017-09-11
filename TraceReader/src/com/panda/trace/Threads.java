@@ -28,7 +28,7 @@ public class Threads {
 	public Threads(Trace trace) throws Exception{
 		this.threads=trace.threads;
 		this.names=trace.names;
-		for(Integer it:trace.fmFile.methods.keySet()){
+		for(Long it:trace.fmFile.methods.keySet()){
 			methodList.add(trace.fmFile.methods.get(it));
 		}
 		

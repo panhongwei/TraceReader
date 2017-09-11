@@ -1,15 +1,15 @@
 package com.panda.trace;
 
 public class MethodList {
-	private int method;
+	private long method;
 	private String methodDescriptor;
 	private String methodName;
 	private String methodSig;
 	private String source;
-	public int getMethod() {
+	public long getMethod() {
 		return method;
 	}
-	public void setMethod(int method) {
+	public void setMethod(long method) {
 		this.method = method;
 	}
 	public String getMethodDescriptor() {

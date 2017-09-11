@@ -83,6 +83,6 @@ public class MethodLog implements Comparable{
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		MethodLog o1=(MethodLog)o;
-		return o1.record.threadClockDiff-this.record.threadClockDiff;
+		return (int) (o1.record.threadClockDiff-this.record.threadClockDiff);
 	}
 }

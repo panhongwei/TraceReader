@@ -65,7 +65,7 @@ public class Trace {
 			traceFile.header.record_size=10;
 		}
 		offset=traceFile.header.kTraceHeaderLength;
-		int value;
+		long value;
 		long current=System.currentTimeMillis();
 		while(offset<data.length){
 			TraceRecord r=new TraceRecord();
@@ -82,7 +82,7 @@ public class Trace {
 			MethodLog ml=new MethodLog();
 			ml.record=r;
 			if(r.m==null){
-				ml.methodName="0x"+Integer.toHexString(r.methodValue);
+				ml.methodName="0x"+Long.toHexString(r.methodValue);
 				ml.action=r.action;
 				ml.source="unkown";
 				ml.FullName=ml.methodName;
@@ -153,7 +153,7 @@ public class Trace {
 		while(!lists[offset].equals("*end")){
 			MethodList m=new MethodList();
 			String params[]=lists[offset].split("\t");
-			m.setMethod(Integer.parseInt(params[0].replace("0x", ""), 16));
+			m.setMethod(Long.parseLong(params[0].replace("0x", ""), 16));
 			m.setMethodDescriptor(params[1]);
 			m.setMethodName(params[2]);
 			m.setMethodSig(params[3]);

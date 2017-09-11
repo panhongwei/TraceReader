@@ -43,14 +43,14 @@ public class BytesHelper {
     	return (int)((data[offset]&0xff)|
     				((data[offset+1]&0xff)<<8));
     }
-    public static int read4LE(byte[] data,int offset){
-    	return (int)((data[offset]&0xff)|
+    public static long read4LE(byte[] data,int offset){
+    	return (long)((data[offset]&0xff)|
     				((data[offset+1]&0xff)<<8)|
     				((data[offset+2]&0xff)<<16)|
     				((data[offset+3]&0xff)<<24));
     }
-    public static int read8LE(byte[] data,int offset){
-    	return (int)((data[offset]&0xff)|
+    public static long read8LE(byte[] data,int offset){
+    	return (long)((data[offset]&0xff)|
     				((data[offset+1]&0xff)<<8)|
     				((data[offset+2]&0xff)<<16)|
     				((data[offset+3]&0xff)<<24)|

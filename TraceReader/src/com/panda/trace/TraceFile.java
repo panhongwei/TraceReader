@@ -10,7 +10,7 @@ public class TraceFile {
 		String kTraceMagicValue;
 		int trace_version;
 		int kTraceHeaderLength;
-		int start_time_;
+		long start_time_;
 		int record_size;
 	}
 }

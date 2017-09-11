@@ -184,6 +184,7 @@ public class TraceFrame extends JFrame{
 				if(fl.getName().endsWith(".trace")){
 					try {
 						TraceThread.topMethod.getChild().clear();
+//						File fl=new File
 						byte[] bytes=BytesHelper.toByteArray(fl.getPath());
 						Trace trace=new Trace(bytes);
 						traceThreads=new Threads(trace);

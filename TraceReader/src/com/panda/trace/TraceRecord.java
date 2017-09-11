@@ -8,27 +8,27 @@ public class TraceRecord {
 	public void setThreadId(int threadId) {
 		this.threadId = threadId;
 	}
-	public int getMethodValue() {
+	public long getMethodValue() {
 		return methodValue;
 	}
-	public void setMethodValue(int methodValue) {
+	public void setMethodValue(long methodValue) {
 		this.methodValue = methodValue;
 	}
-	public int getThreadClockDiff() {
+	public long getThreadClockDiff() {
 		return threadClockDiff;
 	}
-	public void setThreadClockDiff(int threadClockDiff) {
+	public void setThreadClockDiff(long threadClockDiff) {
 		this.threadClockDiff = threadClockDiff;
 	}
-	public int getWallClockDiff() {
+	public long getWallClockDiff() {
 		return wallClockDiff;
 	}
-	public void setWallClockDiff(int wallClockDiff) {
+	public void setWallClockDiff(long wallClockDiff) {
 		this.wallClockDiff = wallClockDiff;
 	}
-	int methodValue;
-	int threadClockDiff;
-	int wallClockDiff;
+	long methodValue;
+	long threadClockDiff;
+	long wallClockDiff;
 	MethodList m;
 	public MethodList getM() {
 		return m;

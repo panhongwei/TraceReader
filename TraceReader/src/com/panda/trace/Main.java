@@ -12,6 +12,8 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		//File fl=new File("./test.trace");
+//		Long.parseLong("882d5af0",16);
+//		System.out.println(Long.parseLong("882d5af0",16));
 		TraceFrame fm=new TraceFrame();
 		
 		//System.out.print(fl.length())
