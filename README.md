@@ -15,4 +15,7 @@
   Trace trace=new Trace(bytes);
   traceThreads=new Threads(trace);
 ```
+## 3.更新
+  更新到了v1.1.重构了代码，添加了许多新功能。<br>
+  支持右键，过滤，显示某个方法运行时间，重命名。。。
   
