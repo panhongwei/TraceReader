@@ -29,11 +29,11 @@ public class TraceRecord {
 	long methodValue;
 	long threadClockDiff;
 	long wallClockDiff;
-	MethodList m;
-	public MethodList getM() {
+	MethodDes m;
+	public MethodDes getM() {
 		return m;
 	}
-	public void setM(MethodList m) {
+	public void setM(MethodDes m) {
 		this.m = m;
 	}
 	int action;

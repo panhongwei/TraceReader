@@ -3,7 +3,7 @@ package com.panda.ui;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.panda.trace.MethodList;
+import com.panda.trace.MethodDes;
 import com.panda.trace.MethodLog;
 
 public class MethodTableModel extends AbstractTableModel{
@@ -28,7 +28,7 @@ public class MethodTableModel extends AbstractTableModel{
 		// TODO Auto-generated method stub
 		//System.out.println(TraceFrame.getChildNum(log));
 		if(log.traceThreads!=null)
-			return log.traceThreads.getMethodList().size();
+			return log.traceThreads.getAllName().size();
 		else 
 			return 0;
 	}
@@ -46,8 +46,8 @@ public class MethodTableModel extends AbstractTableModel{
 			return rowIndex;
 		}else if(columnIndex==1){
 			if(log.traceThreads!=null){
-				MethodList m=log.traceThreads.getMethodList().get(rowIndex);
-				return m.getMethodDescriptor()+""+m.getMethodName();
+				String m=log.traceThreads.getAllName().get(rowIndex);
+				return m;
 			}
 		}
 		return null;

@@ -16,7 +16,7 @@ public class FormatFile {
 	private int clockCallOverhead;
 	private String vm;
 	Map<String,String> threads=new HashMap<String, String>();
-	Map<Long,MethodList> methods=new HashMap<Long,MethodList>();
+	Map<Long,MethodDes> methods=new HashMap<Long,MethodDes>();
 	public Map getMethods() {
 		return methods;
 	}

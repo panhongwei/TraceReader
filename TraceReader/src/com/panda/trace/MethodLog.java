@@ -5,6 +5,20 @@ import java.util.List;
 
 public class MethodLog implements Comparable{
 	TraceRecord record;
+	long threadCostTime;
+	public long getThreadCostTime() {
+		return threadCostTime;
+	}
+	public void setThreadCostTime(long threadCostTime) {
+		this.threadCostTime = threadCostTime;
+	}
+	public long getWallCostTime() {
+		return wallCostTime;
+	}
+	public void setWallCostTime(long wallCostTime) {
+		this.wallCostTime = wallCostTime;
+	}
+	long wallCostTime;
 	public TraceRecord getRecord() {
 		return record;
 	}

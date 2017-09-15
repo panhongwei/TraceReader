@@ -43,12 +43,21 @@ import java.util.Map;
 public class Trace {
 	FormatFile fmFile;
 	TraceFile traceFile;
-	Map<String,TraceThread> threads=new HashMap<>();
-	public List<String> names=new ArrayList<>();
+	ThreadList thread;
+	public ThreadList getThreadList() {
+		return thread;
+	}
+	//	Map<String,TraceThread> threads=new HashMap<>();
+//	protected List<String> names=new ArrayList<>();
+//	protected Map<String,List<MethodLog>> nameMap=new HashMap<>();
 	public Trace(byte[] bytes){
 		divideBytes(bytes);
 	}
-	private void readTrace(byte[] data){
+	private void readTrace(byte[] data)throws Throwable{
+		ThreadList t=new ThreadList();
+		Map<String,TraceThread> threads=t.threads;
+		List<String> names=t.names;
+		Map<String,List<MethodLog>> nameMap=t.nameMap;
 		traceFile=new TraceFile();
 		int offset=0;
 		traceFile.header.kTraceMagicValue=(char)(data[0])+""+(char)(data[1])+""+(char)(data[2])+""+(char)(data[3]);
@@ -92,6 +101,14 @@ public class Trace {
 				ml.source=r.m.getSource().split("\t")[0];
 				ml.action=r.action;
 			}
+			if(!nameMap.containsKey(ml.FullName)){
+				List<MethodLog> l=new ArrayList<>();
+				l.add(ml);
+				nameMap.put(ml.FullName, l);
+			}else{
+				List<MethodLog> l=nameMap.get(ml.FullName);
+				l.add(ml);
+			}
 			if(!threads.containsKey(ml.record.threadId+"")){
 				TraceThread thread=new TraceThread();
 				thread.threadId=ml.record.threadId;
@@ -106,6 +123,8 @@ public class Trace {
 		}
 		long current1=System.currentTimeMillis();
 		System.out.println(current1-current);
+		t.sort();
+		thread=t;
 	}
 	private void readFileFormat(String format){
 		String[] lists=format.split("\n");
@@ -151,7 +170,7 @@ public class Trace {
 		}
 		offset++;
 		while(!lists[offset].equals("*end")){
-			MethodList m=new MethodList();
+			MethodDes m=new MethodDes();
 			String params[]=lists[offset].split("\t");
 			m.setMethod(Long.parseLong(params[0].replace("0x", ""), 16));
 			m.setMethodDescriptor(params[1]);
@@ -178,7 +197,11 @@ public class Trace {
 		byte[] data=new byte[bytes.length-padding];
 		System.arraycopy(bytes, padding, data, 0, data.length-1);
 		readFileFormat(buffer.toString());
-		readTrace(data);
+		try{
+			readTrace(data);
+		}catch(Throwable e){
+			e.printStackTrace();
+		}
 	}
 
 }
