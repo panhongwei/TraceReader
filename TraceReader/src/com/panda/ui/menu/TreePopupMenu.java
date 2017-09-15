@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Enumeration;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -20,11 +21,12 @@ import com.panda.ui.TraceFrame;
 import com.panda.ui.list.ThreadListExt;
 import com.panda.ui.tree.AbstractNode;
 import com.panda.ui.tree.CallStackTree;
+import com.panda.ui.tree.MethodNode;
 import com.panda.ui.tree.MethodsExtendTree;
 
 public class TreePopupMenu extends JPopupMenu{
 	JTree tree;
-	private JMenuItem copy = null, hook = null, rename = null,fresh = null,showTime = null;
+	private JMenuItem copy = null, hook = null, rename = null,fresh = null,showTime = null,hideTime=null;
 	TreePath focus;
 	public TreePath getFocus() {
 		return focus;
@@ -39,6 +41,7 @@ public class TreePopupMenu extends JPopupMenu{
 	   // this.add(hook = new JMenuItem("添加hook"));  
 	    this.add(rename = new JMenuItem("编辑")); 
 	    this.add(showTime = new JMenuItem("显示时间"));
+	    this.add(hideTime = new JMenuItem("隐藏时间"));
 //	    this.add(fresh = new JMenuItem("刷新"));
 	    copy.addActionListener(new ActionListener() {
 			
@@ -106,7 +109,37 @@ public class TreePopupMenu extends JPopupMenu{
 				if(focus.getPath().length>=1){
 					AbstractNode node=(AbstractNode)focus.getLastPathComponent();
 					if(node!=null){
-						node.setShowTime(true);;
+						node.setShowTime(true);
+						Enumeration<AbstractNode> enums=node.preorderEnumeration();
+						 while(enums.hasMoreElements()){
+							 AbstractNode an=(AbstractNode) enums.nextElement();
+							 if(an.getM().getFullName().startsWith("===")){
+								 continue;
+							 }
+							 an.setShowTime(true);
+						 }
+					}
+				}
+				
+			}
+		});
+	    hideTime.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(focus.getPath().length>=1){
+					AbstractNode node=(AbstractNode)focus.getLastPathComponent();
+					if(node!=null){
+						node.setShowTime(false);
+						Enumeration<AbstractNode> enums=node.preorderEnumeration();
+						 while(enums.hasMoreElements()){
+							 AbstractNode an=(AbstractNode) enums.nextElement();
+							 if(an.getM().getFullName().startsWith("===")){
+								 continue;
+							 }
+							 an.setShowTime(false);
+						 }
 					}
 				}
 				
