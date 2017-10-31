@@ -50,6 +50,9 @@ public class TraceMenuBar extends JMenuBar{
 				}
 				if(fl.getName().endsWith(".trace")){
 					try {
+						if(((TraceFrame)frame).getTraceThreads()!=null){
+							((TraceFrame)frame).getTraceThreads().reset();
+						}
 						TraceThread.topMethod.getChild().clear();
 //						File fl=new File
 						byte[] bytes=BytesHelper.toByteArray(fl.getPath());

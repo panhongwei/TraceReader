@@ -40,6 +40,9 @@ public class DropTargetAdapterExt extends DropTargetAdapter{
 			        File fl=(File)itor.next();
 			        if(fl.getName().endsWith(".trace")){
 						try {
+							if(((TraceFrame)frame).getTraceThreads()!=null){
+								((TraceFrame)frame).getTraceThreads().reset();
+							}
 							TraceThread.topMethod.getChild().clear();
 							byte[] bytes=BytesHelper.toByteArray(fl.getPath());
 							//long current=System.currentTimeMillis();

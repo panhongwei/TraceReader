@@ -57,8 +57,10 @@ public class TraceThread {
 		stack.push(topMethod);
 		for(int i=0;i<n;++i){
 			MethodLog np=new MethodLog("noPart",0);
+			//wrong diff
 			np.record.threadClockDiff=methods.get(0).record.threadClockDiff;
 			np.record.wallClockDiff=methods.get(0).record.wallClockDiff;
+			
 			stack.push(np);
 		}
 		for(int i=0;i<methods.size();++i){
@@ -75,6 +77,12 @@ public class TraceThread {
 		List<MethodLog> m=new ArrayList();
 		for(int i=0;i<methods.size();++i){
 			if(methods.get(i).action==0){
+				if(methods.get(i).FullName.equals("noPart")){
+					methods.get(i).FullName=methods.get(i).partner.FullName;
+					methods.get(i).record=methods.get(i).partner.record;
+					methods.get(i).methodName=methods.get(i).partner.methodName;
+					methods.get(i).source=methods.get(i).partner.source;
+				}
 				if(methods.get(i).parent==null){
 					methods.get(i).parent=methods.get(i).partner.parent;
 					methods.get(i).parent.child.remove(methods.get(i).partner);

@@ -127,7 +127,7 @@ public class TraceFrame extends JFrame{
 		mtable=new JTable(new MethodTableModel(this));
 		
 		tabbedPane=new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("树形结构", jScrollPane1);
+		tabbedPane.addTab("Trace树形结构", jScrollPane1);
 		JScrollPane jspMtree=new JScrollPane(mTree);
 		final JScrollBar jsb=jspMtree.getVerticalScrollBar();
 		jspMtree.setVerticalScrollBar(jsb);
@@ -147,8 +147,8 @@ public class TraceFrame extends JFrame{
 			
 		});
 
-		tabbedPane.addTab("方法列表", jspMtree);
-		tabbedPane.addTab("方法集合", new JScrollPane(mtable));
+		tabbedPane.addTab("Trace方法列表", jspMtree);
+		tabbedPane.addTab("Trace方法集合", new JScrollPane(mtable));
 		jspMain.setRightComponent(tabbedPane);
 		tabbedPane.addChangeListener(new ChangeListener(){
 

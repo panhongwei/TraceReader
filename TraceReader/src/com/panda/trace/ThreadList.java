@@ -41,4 +41,9 @@ public class ThreadList {
 		 nameList.addAll(nameMap.keySet()); 
 	     return nameList;
 	}
+	public void reset(){
+		names.clear();
+		threads.clear();
+		nameMap.clear();
+	}
 }
