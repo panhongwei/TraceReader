@@ -10,9 +10,9 @@ import java.util.Map;
 public class ThreadList {
 	public List<String> names;
 	Map<String,TraceThread> threads;
-	protected Map<String,List<MethodLog>> nameMap;
+	protected Map<String,TraceRecord> nameMap;
 	boolean sort;
-	public Map<String, List<MethodLog>> getNameMap() {
+	public Map<String, TraceRecord> getNameMap() {
 		return nameMap;
 	}
 	public Map<String, TraceThread> getThreads() {

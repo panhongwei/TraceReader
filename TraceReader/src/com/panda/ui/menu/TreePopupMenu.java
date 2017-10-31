@@ -93,7 +93,7 @@ public class TreePopupMenu extends JPopupMenu{
 						}else{
 							f=((MethodsExtendTree)tree).getFrame();
 						}
-						new Thread(new Change(f,node.getM().getFullName(),rename)).start();
+						new Thread(new Change(f,node.getM().getFullName(),rename,node.getM().getOriginFullName())).start();
 //						node.getM().setFullName(rename);
 						
 					}
@@ -150,15 +150,17 @@ public class TreePopupMenu extends JPopupMenu{
 		TraceFrame f;
 		String rename;
 		String name;
-		public Change(TraceFrame f,String name,String rename){
+		String origin;
+		public Change(TraceFrame f,String name,String rename,String origin){
 			this.f=f;
 			this.rename=rename;
 			this.name=name;
+			this.origin=origin;
 		}
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			f.rename(name,rename);
+			f.rename(origin,name,rename);
 		}
 		
 	}

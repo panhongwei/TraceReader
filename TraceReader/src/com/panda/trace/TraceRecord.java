@@ -43,4 +43,11 @@ public class TraceRecord {
 	public void setAction(int action) {
 		this.action = action;
 	}
+	public void reNameMethod(String name){
+		m.renameMethod(name);
+	}
+	public void reNameClass(String old,String name){
+		m.renameClass(old, name);
+		m.renameSig("L"+old+";", "L"+name+";");
+	}
 }

@@ -9,6 +9,7 @@ import java.awt.event.AdjustmentListener;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TooManyListenersException;
 
 import javax.swing.BorderFactory;
@@ -30,6 +31,7 @@ import javax.swing.event.ChangeListener;
 
 import com.panda.trace.MethodLog;
 import com.panda.trace.ThreadList;
+import com.panda.trace.TraceRecord;
 import com.panda.trace.TraceThread;
 import com.panda.ui.combo.OrderComboBox;
 import com.panda.ui.drop.DropTargetAdapterExt;
@@ -42,6 +44,7 @@ import com.panda.ui.tree.CallStackTree;
 import com.panda.ui.tree.MethodRenderer;
 import com.panda.ui.tree.MethodsExtendModel;
 import com.panda.ui.tree.MethodsExtendTree;
+import com.panda.util.MethodUtil;
 
 public class TraceFrame extends JFrame{
 
@@ -247,14 +250,49 @@ public class TraceFrame extends JFrame{
 			return "uknown";
 		}
 	}
-	public synchronized void rename(String name,String rename){
-		Map<String,List<MethodLog>> nameMap=this.getTraceThreads().getNameMap();
-		List<MethodLog> l=nameMap.get(name);
-		for(MethodLog ml:l){
-			ml.setFullName(rename);
+	public synchronized void rename(String origin,String name,String rename){
+		Map<String,TraceRecord> nameMap=this.getTraceThreads().getNameMap();
+		String clsName=name.substring(0, name.indexOf("."));
+		String methodName=name.substring(name.indexOf("."),name.indexOf("("));
+		String sig=name.substring(name.indexOf("("),name.length());
+		String reClsName=rename.substring(0, rename.indexOf("."));
+		String reMethodName=rename.substring(rename.indexOf("."),rename.indexOf("("));
+		String reSig=rename.substring(rename.indexOf("("),rename.length());
+		if(reClsName.equals("")||reMethodName.equals("")||reSig.equals("")){
+			JOptionPane.showMessageDialog(this, "改名失败!");
+			return;
 		}
-		nameMap.remove(name);
-		nameMap.put(rename, l);
+		if((!clsName.equals(reClsName)&&!sig.equals(reSig))){
+			JOptionPane.showMessageDialog(this, "一次只允许修改一个类!");
+			return;
+		}
+		if(!methodName.equals(reMethodName)){
+			TraceRecord r=nameMap.get(origin);
+			r.reNameMethod(reMethodName);
+		}
+		if(!clsName.equals(reClsName)){
+			for(Entry<String,TraceRecord> entry :nameMap.entrySet()){
+				TraceRecord r=entry.getValue();
+				r.reNameClass(clsName,reClsName);
+			}
+		}else if(!sig.equals(reSig)){
+			String[] str= MethodUtil.anlysisSig(sig).split(";");
+			String[] res= MethodUtil.anlysisSig(reSig).split(";");
+			if(str.length!=res.length){
+				JOptionPane.showMessageDialog(this, "改名失败!");
+				return;
+			}
+			for(int i=0;i<str.length;++i){
+				if(MethodUtil.isPrimitiveString(str[i])){
+					continue;
+				}else if(!str[i].equals(res[i])){
+					for(Entry<String,TraceRecord> entry :nameMap.entrySet()){
+						TraceRecord r=entry.getValue();
+						r.reNameClass(str[i],res[i]);
+					}
+				}
+			}
+		}
 		renames++;
 		reloadLabelName();
 	}

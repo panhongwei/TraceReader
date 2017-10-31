@@ -57,7 +57,7 @@ public class Trace {
 		ThreadList t=new ThreadList();
 		Map<String,TraceThread> threads=t.threads;
 		List<String> names=t.names;
-		Map<String,List<MethodLog>> nameMap=t.nameMap;
+		Map<String,TraceRecord> nameMap=t.nameMap;
 		traceFile=new TraceFile();
 		int offset=0;
 		traceFile.header.kTraceMagicValue=(char)(data[0])+""+(char)(data[1])+""+(char)(data[2])+""+(char)(data[3]);
@@ -88,36 +88,25 @@ public class Trace {
 			r.m=fmFile.methods.get(r.methodValue);
 			r.action=TraceAction.decodeAction(value);
 			traceFile.records.add(r);
-			MethodLog ml=new MethodLog();
-			ml.record=r;
+			MethodLog ml;
 			if(r.m==null){
-				ml.methodName="0x"+Long.toHexString(r.methodValue);
-				ml.action=r.action;
-				ml.source="unkown";
-				ml.FullName=ml.methodName;
+				ml=new MethodLog("0x"+Long.toHexString(r.methodValue),r.action);
 			}else{
-				ml.FullName=r.m.getMethodDescriptor()+"."+r.m.getMethodName()+r.m.getMethodSig();
-				ml.methodName=r.m.getMethodName();
-				ml.source=r.m.getSource().split("\t")[0];
-				ml.action=r.action;
+				ml=new MethodLog(r);
 			}
-			if(!nameMap.containsKey(ml.FullName)){
-				List<MethodLog> l=new ArrayList<>();
-				l.add(ml);
-				nameMap.put(ml.FullName, l);
-			}else{
-				List<MethodLog> l=nameMap.get(ml.FullName);
-				l.add(ml);
+			if(!nameMap.containsKey(ml.getFullName())){
+				TraceRecord rd=ml.record;
+				nameMap.put(ml.getFullName(), rd);
 			}
-			if(!threads.containsKey(ml.record.threadId+"")){
+			if(!threads.containsKey(ml.getRecord().threadId+"")){
 				TraceThread thread=new TraceThread();
-				thread.threadId=ml.record.threadId;
+				thread.threadId=ml.getRecord().threadId;
 				thread.methods.add(ml);
-				thread.name=fmFile.threads.get(ml.record.threadId+"");
-				threads.put(ml.record.threadId+"", thread);
-				names.add(ml.record.threadId+"");
+				thread.name=fmFile.threads.get(ml.getRecord().threadId+"");
+				threads.put(ml.getRecord().threadId+"", thread);
+				names.add(ml.getRecord().threadId+"");
 			}else{
-				threads.get(ml.record.threadId+"").methods.add(ml);
+				threads.get(ml.getRecord().threadId+"").methods.add(ml);
 			}
 			offset=offset+traceFile.header.record_size;
 		}
